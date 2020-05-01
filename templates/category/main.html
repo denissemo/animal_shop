@@ -1,0 +1,66 @@
+{% extends "page/index.html" %}
+
+{% block content %}
+    {% if items %}
+        {% for item in items %}
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card h-100">
+                    <a style="padding: 15px;" href=""><img
+                            style="max-height: 350px"
+                            class="card-img-top img-fluid"
+                            src="/{{ item.image }}"
+                            alt="{{ item.name }}"></a>
+                    <div class="card-body">
+                        <p style="font-size: 20px; color: #007bff;"
+                           class="card-title">
+                            {{ item.name }}
+                        </p>
+
+                        <p>
+                            <strong style="color: red">{{ item.price }}
+                                <span class="text-muted"> грн/шт.</span>
+                            </strong>
+                        </p>
+
+                        <p class="card-text">
+                            <strong>Возраст:</strong> {{ item.age.name }}
+                        </p>
+
+                        <p class="card-text">
+                            <strong>Бренд:</strong> {{ item.brand.name }}
+                        </p>
+
+                        <p class="card-text">
+                            <strong>Вес:</strong> {{ item.weight }} г
+                        </p>
+
+
+                        <p class="card-text"
+                           style="
+                       text-overflow: ellipsis;
+                       white-space: nowrap;
+                       overflow: hidden;" title="{{ item.description }}">
+                            <strong>Состав:</strong> {{ item.description }}
+                        </p>
+                    </div>
+                    <div class="card-footer d-flex flex-row-reverse">
+                        <button style="color: #212529; background-color: #fdec04; border-color: unset;"
+                                id="{{ item.id }}" class="btn btn-info"
+                                type="button"
+                                onclick="click_cart_btn({{ item.id }})">Добавить
+                            в
+                            корзину
+                        </button>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div style="max-width: 80%; margin: 0 auto;">
+            <div style="padding: 200px;text-align: center">
+                <h4>Ничего не найдено.</h4>
+                <h4>Вернутся <a href="/">назад</a></h4>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

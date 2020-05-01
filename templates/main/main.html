@@ -1,0 +1,15 @@
+{% extends "page/index.html" %}
+
+{% block content %}
+    {% for category in categories %}
+        <div style="margin-top: 10px; margin-bottom: 10px" class="col-sm-3">
+            <div class="card">
+                <img class="card-img-top" src="{{ category.image }}"
+                     alt="{{ category.name }}">
+                <div class="card-body" style="text-align: center;">
+                    <a href="{% url "category" category.id %}"><span style="font-size: 20px;line-height: 24px;">{{ category.name }}</span></a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

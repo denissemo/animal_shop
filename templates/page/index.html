@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% include "page/header.html" %}
+
+<body>
+
+{% include "page/navigation.html" %}
+
+<div style="margin-top: 100px; margin-bottom: 50px;" class="container">
+    <div class="row">
+        {% block content %}
+
+        {% endblock %}
+    </div>
+
+</div>
+
+{% include "page/footer.html" %}
+
+<script>
+    function search() {
+        let inp = $('#search_input');
+        const value = inp.val();
+
+        if (value) {
+            console.log('here');
+            window.location.href = `/search/${value}`;
+        }
+    }
+
+    function click_cart_btn(id) {
+        let btn = $(`#${id}`);
+        btn.attr('disabled', 'disabled');
+        btn.append('<span id="load" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
+
+        $.ajax({
+            type: "GET",
+            url: "{% url "add_to_cart" %}",
+            data: {
+                item_id: id
+            },
+            success: function (data) {
+                if (data == 200) {
+                    setTimeout(function () {
+                        btn.removeAttr('disabled');
+                        $('#load').remove();
+                        alert('Успешно добавлено')
+                    }, 500);
+                }
+            }
+        })
+    }
+
+    function addItem(item_id, price) {
+        let quantity_input = $(`#${item_id}`);
+        let total = $('#total');
+        let total_value = Number.parseFloat(total.text());
+
+        total.text(total_value + price);
+
+        $.ajax({
+            type: "GET",
+            url: "{% url "add_item" %}",
+            data: {
+                item_id
+            },
+            success: function (data) {
+                if (data == 200) {
+                    const incr = Number.parseInt(quantity_input.val()) + 1;
+                    quantity_input.val(incr);
+                    console.log('success');
+                }
+            }
+        })
+    }
+
+    function removeItem(item_id, price) {
+        let quantity_input = $(`#${item_id}`);
+        let total = $('#total');
+        let total_value = Number.parseFloat(total.text());
+
+        total.text(total_value - price);
+
+        $.ajax({
+            type: "GET",
+            url: "{% url "remove_item" %}",
+            data: {
+                item_id
+            },
+            success: function (data) {
+                if (data == 200) {
+                    const decr = Number.parseInt(quantity_input.val()) - 1;
+                    quantity_input.val(decr);
+                    console.log('success');
+                }
+            }
+        })
+    }
+
+    function buy() {
+        let total = $('#total');
+        total = Number.parseFloat(total.text());
+
+        const name = $('#name').val();
+        const surname = $('#surname').val();
+        const email = $('#email').val();
+        const phone_number = $('#phone_number').val();
+        const city = $('#city').val();
+        const street = $('#street').val();
+        const house_number = $('#house_number').val();
+        const comment = $('#comment').val();
+
+        $.ajax({
+            type: "GET",
+            url: "{% url "buy" %}",
+            data: {
+                name,
+                surname,
+                email,
+                phone_number,
+                city,
+                street,
+                house_number,
+                comment,
+                total
+            },
+            success: function (data) {
+                if (data == 200) {
+                    alert('Успешная покупка');
+                    window.location.href = '/'
+                } else {
+                    alert('Заполните данные формы!')
+                }
+            }
+        })
+    }
+</script>
+
+</body>
+
+</html>
