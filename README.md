@@ -9,6 +9,8 @@ Django 3.0.5+
 
 **Install**
 
-pip install django
+pip -r install requirements.txt
+
+cd animal_shop/
 
 python manage.py runserver
