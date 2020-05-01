@@ -9,6 +9,6 @@ Django 3.0.5+
 
 **Install**
 
-#pip install django
+# pip install django
 
-#python manage.py runserver
+# python manage.py runserver
